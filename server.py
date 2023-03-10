@@ -19,16 +19,15 @@ users = [
     {
         "username": "martin",
         "password": "martin"  # encrypted: a=fasdfsafsdfj289fd
-    }
+    },
 ]
-users_db = {}
-
 
 def get_AllUsers():
     ret = []
     for user in users:
         ret.append(user["username"])
     return ','.join(ret)
+
 
 def authentication(userObj):
     for user in users:
@@ -69,12 +68,14 @@ class MyServer(BaseHTTPRequestHandler):
         userData = parse_FormData(post_data.decode("UTF-8"))
         if authentication(userData):
             self.wfile.write(bytes("Welcome, " + userData["username"], "UTF-8"))
-        elif authentication and self.path == '/login':
-            self.wfile.write(bytes("Login Successful: Welcome, " + userData["username"], "UTF-8"))
-            self.wfile.write(bytes("<a href=\"/\">Home</a>", "UTF-8"))
-        elif authentication and self.path == '/register':
-            self.wfile.write(bytes("Register Successful: Welcome, " + userData["username"], "UTF-8"))
-            self.wfile.write(bytes("<a href=\"/\">Home</a>", "UTF-8"))
+            if authentication and self.path == '/login':
+                # self.wfile.write(bytes("{\"result\": \"OK\", \"content\": \"%s\"}" % routes["api"][self.path], "utf-8"))
+                self.wfile.write(bytes("Login Successful: Welcome, " + userData["username"], "UTF-8"))
+                self.wfile.write(bytes("<a href=\"/\">Home</a>", "UTF-8"))
+            if authentication and self.path == '/register':
+                # self.wfile.write(bytes("{\"result\": \"OK\", \"content\": \"%s\"}" % routes["api"][self.path], "utf-8"))
+                self.wfile.write(bytes("Register Successful: Welcome, " + userData["username"], "UTF-8"))
+                self.wfile.write(bytes("<a href=\"/\">Home</a>", "UTF-8"))
         else:
             self.wfile.write(bytes("Username and password do not match.", "UTF-8"))
         self.wfile.write(bytes("<a href=\"/login\">login</a>", "UTF-8"))

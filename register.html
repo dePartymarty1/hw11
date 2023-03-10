@@ -34,12 +34,6 @@
             </p>
         </div>
         <div>
-            <p>
-                <label>Password Confirmation</label>
-                <input id="passwordC" type="password" name="passwordC" />
-            </p>
-        </div>
-        <div>
             <p><input type="submit" value="Submit"/></p>
         </div>
     </form>
@@ -56,7 +50,7 @@
                 document.getElementById("display").innerHTML="<span>" +  obj1["content"] + "</span>"
                 console.log(this.responseText);
                 }
-                xhttp.open("GET", "/api/getAllUsers", true);
+                xhttp.open("POST", "/api/getAllUsers", true);
                 xhttp.send();   
         })
     })
